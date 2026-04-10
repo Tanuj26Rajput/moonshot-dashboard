@@ -1,0 +1,118 @@
+{
+    "FUR JADEN": {
+        "overall_sentiment": "Positive",
+        "sentiment_score": 4,
+        "positive_themes": [
+            "quality",
+            "design",
+            "durability"
+        ],
+        "negative_themes": [
+            "poor build quality",
+            "damage"
+        ],
+        "common_complaints": [
+            "poor zipper quality",
+            "damage during shipping"
+        ],
+        "common_praise": [
+            "smooth wheels",
+            "stylish design"
+        ],
+        "summary": "Most customers praise the FUR JADEN product for its quality, design, and durability, but some report poor build quality and damage issues."
+    },
+    "Nasher Miles": {
+        "overall_sentiment": "Positive",
+        "sentiment_score": 4,
+        "positive_themes": [
+            "sturdy",
+            "smooth wheels",
+            "good design"
+        ],
+        "negative_themes": [
+            "poor quality",
+            "damaged product",
+            "bad customer service"
+        ],
+        "common_complaints": [
+            "wheel breakage",
+            "damage during shipping"
+        ],
+        "common_praise": [
+            "value for money",
+            "lightweight",
+            "spacious"
+        ],
+        "summary": "Most customers are satisfied with Nasher Miles products, citing their sturdiness and smooth wheels."
+    },
+    "Safari": {
+        "overall_sentiment": "Positive",
+        "sentiment_score": 4,
+        "positive_themes": [
+            "good quality",
+            "durable",
+            "stylish"
+        ],
+        "negative_themes": [
+            "minor scratches",
+            "lock issues",
+            "delivery problems"
+        ],
+        "common_complaints": [
+            "scratches on wheels",
+            "lock not opening"
+        ],
+        "common_praise": [
+            "good build quality",
+            "smooth ride"
+        ],
+        "summary": "Most customers are satisfied with Safari products, praising their quality and durability."
+    },
+    "Skybags": {
+        "overall_sentiment": "Positive",
+        "sentiment_score": 4,
+        "positive_themes": [
+            "stylish design",
+            "good quality",
+            "durable"
+        ],
+        "negative_themes": [
+            "poor build quality",
+            "damaged products"
+        ],
+        "common_complaints": [
+            "scratches",
+            "weak handles"
+        ],
+        "common_praise": [
+            "lightweight",
+            "smooth wheels"
+        ],
+        "summary": "Skybags products are generally well-liked for their stylish design and good quality, but some customers have issues with poor build quality and damaged products."
+    },
+    "uppercase": {
+        "overall_sentiment": "Positive",
+        "sentiment_score": 5,
+        "positive_themes": [
+            "Quality and durability",
+            "Design and aesthetics",
+            "Functionality and features"
+        ],
+        "negative_themes": [
+            "Scratches and damage",
+            "Wheel issues",
+            "Lock and zipper problems"
+        ],
+        "common_complaints": [
+            "Scratches on the surface",
+            "Wheels not smooth",
+            "Lock and zipper issues"
+        ],
+        "common_praise": [
+            "Lightweight and sturdy",
+            "Spacious and organized interior",
+            "Attractive design"
+        ],
+        "summary": "Uppercase brand receives overwhelmingly positive reviews for its quality, design, and functionality, with some minor complaints about scratches and wheel issues."
+    }
+}
