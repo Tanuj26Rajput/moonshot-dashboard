@@ -1,0 +1,23 @@
+**Task 1: Winning Brand**
+The winning brand overall is **uppercase** with a competition score of 0.7616. This is due to its high average rating (4.55), high review count (369), and high sentiment score (0.91), indicating excellent customer satisfaction and quality.
+
+**Task 2: Weakest Brand**
+The weakest brand is **Nasher Miles** with a competition score of 0.0247. This is due to its low average rating (3.93), low sentiment score (0.79), and high price (4420.60), indicating poor customer satisfaction and low value for money.
+
+**Task 3: Comparison**
+
+* **Price vs Quality**: uppercase offers high quality (avg rating: 4.55) at a moderate price (3135.80), while Nasher Miles offers low quality (avg rating: 3.93) at a high price (4420.60).
+* **Discount Strategy**: FUR JADEN and uppercase have similar discount strategies (avg discount: 25.11% and 25.13%, respectively), while Safari has the lowest discount (24.83%).
+* **Customer Satisfaction**: uppercase has the highest customer satisfaction (avg sentiment: 0.91), while Nasher Miles has the lowest (avg sentiment: 0.79).
+
+**Task 4: Brand Identification**
+
+* **Best Budget Brand**: Skybags (avg price: 1968.75) offers good quality (avg rating: 4.15) at an affordable price.
+* **Best Premium Brand**: uppercase (avg price: 3135.80) offers high quality (avg rating: 4.55) at a moderate price.
+* **Best Overall Value Brand**: uppercase offers the best balance of quality, price, and customer satisfaction.
+
+**Task 5: Surprising Insights**
+
+* Despite having the highest price, Nasher Miles has the lowest customer satisfaction and quality.
+* Skybags offers good quality at an affordable price, making it a strong contender in the budget segment.
+* uppercase's high competition score is driven by its excellent customer satisfaction and quality, rather than its price or discount strategy.
