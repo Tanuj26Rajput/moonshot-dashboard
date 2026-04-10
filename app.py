@@ -7,6 +7,40 @@ import json
 import pandas as pd
 import plotly.express as px
 import streamlit as st
+import os
+from dotenv import load_dotenv
+from openai import OpenAI
+
+load_dotenv()
+
+client_groq = OpenAI(
+    api_key=os.getenv("GROQ_API_KEY"),
+    base_url="https://api.groq.com/openai/v1",
+)
+
+
+def groq_invoke(prompt: str) -> str:
+    try:
+        response = client_groq.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are a precise data analyst.",
+                },
+                {"role": "user", "content": prompt},
+            ],
+            temperature=0.2,
+        )
+
+        content = response.choices[0].message.content
+        if not content:
+            return "fallback"
+
+        return content.strip()
+    except Exception as e:
+        print("Groq API Error:", e)
+        return "fallback"
 
 
 st.set_page_config(
@@ -25,99 +59,41 @@ COMPETITIVE_NOTES_PATH = DATA_DIR / "competitive_insights.txt"
 PRICING_NOTES_PATH = DATA_DIR / "pricing_llm_insights.txt"
 BRAND_INSIGHTS_PATH = Path("brand_insights.json")
 
-POSITIVE_TERMS = {
-    "sturdy",
-    "durable",
-    "smooth",
-    "premium",
-    "spacious",
-    "lightweight",
-    "excellent",
-    "good",
-    "great",
-    "amazing",
-    "value",
-    "quality",
-    "strong",
-    "best",
-    "comfortable",
-    "recommended",
-    "stylish",
-    "easy",
-    "perfect",
-}
 
-NEGATIVE_TERMS = {
-    "scratch",
-    "scratches",
-    "broken",
-    "damage",
-    "damaged",
-    "poor",
-    "bad",
-    "heavy",
-    "defect",
-    "defective",
-    "issue",
-    "issues",
-    "zip",
-    "zipper",
-    "wheel",
-    "wheels",
-    "lock",
-    "small",
-    "late",
-    "weak",
-    "problem",
-}
+# --- LLM-driven keyword/stopword/theme extraction with fallback ---
+def get_llm_terms(prompt: str, fallback: set | dict) -> set | dict:
+    """
+    Query Groq LLM for a list/dict of terms. Fallback to hardcoded if LLM fails.
+    """
+    try:
+        response = groq_invoke(prompt)
+        # Try to parse as JSON (for dicts) or comma-separated (for sets)
+        try:
+            parsed = json.loads(response)
+            if isinstance(fallback, dict) and isinstance(parsed, dict):
+                # Convert all values to sets
+                return {k: set(v) for k, v in parsed.items()}
+            if isinstance(fallback, set) and isinstance(parsed, list):
+                return set(parsed)
+        except Exception:
+            # Fallback: parse comma-separated for sets
+            if isinstance(fallback, set):
+                return set(map(str.strip, response.split(",")))
+        return fallback
+    except Exception:
+        return fallback
 
-STOPWORDS = {
-    "a",
-    "about",
-    "all",
-    "an",
-    "and",
-    "are",
-    "at",
-    "be",
-    "been",
-    "but",
-    "by",
-    "for",
-    "from",
-    "good",
-    "great",
-    "had",
-    "has",
-    "have",
-    "i",
-    "if",
-    "in",
-    "is",
-    "it",
-    "its",
-    "my",
-    "not",
-    "of",
-    "on",
-    "or",
-    "our",
-    "so",
-    "that",
-    "the",
-    "their",
-    "there",
-    "this",
-    "to",
-    "very",
-    "was",
-    "were",
-    "with",
-    "you",
-    "your",
+# Fallback values (original hardcoded)
+_POSITIVE_TERMS = {
+    "sturdy", "durable", "smooth", "premium", "spacious", "lightweight", "excellent", "good", "great", "amazing", "value", "quality", "strong", "best", "comfortable", "recommended", "stylish", "easy", "perfect",
 }
-
-THEME_KEYWORDS = {
+_NEGATIVE_TERMS = {
+    "scratch", "scratches", "broken", "damage", "damaged", "poor", "bad", "heavy", "defect", "defective", "issue", "issues", "zip", "zipper", "wheel", "wheels", "lock", "small", "late", "weak", "problem",
+}
+_STOPWORDS = {
+    "a", "about", "all", "an", "and", "are", "at", "be", "been", "but", "by", "for", "from", "good", "great", "had", "has", "have", "i", "if", "in", "is", "it", "its", "my", "not", "of", "on", "or", "our", "so", "that", "the", "their", "there", "this", "to", "very", "was", "were", "with", "you", "your",
+}
+_THEME_KEYWORDS = {
     "durability": {"durable", "sturdy", "strong", "solid", "hard", "quality"},
     "wheels": {"wheel", "wheels", "rolling", "smooth", "spinner"},
     "space": {"space", "spacious", "storage", "capacity", "room"},
@@ -127,6 +103,24 @@ THEME_KEYWORDS = {
     "value": {"value", "price", "worth", "budget"},
     "delivery": {"delivery", "packaging", "received", "late"},
 }
+
+# Prompts for LLM
+POSITIVE_TERMS = get_llm_terms(
+    "List the top 20 positive sentiment keywords (single words only, comma separated, no explanations) commonly found in Indian e-commerce luggage product reviews.",
+    _POSITIVE_TERMS,
+)
+NEGATIVE_TERMS = get_llm_terms(
+    "List the top 20 negative sentiment keywords (single words only, comma separated, no explanations) commonly found in Indian e-commerce luggage product reviews.",
+    _NEGATIVE_TERMS,
+)
+STOPWORDS = get_llm_terms(
+    "List the 30 most common English stopwords (single words only, comma separated, no explanations).",
+    _STOPWORDS,
+)
+THEME_KEYWORDS = get_llm_terms(
+    "Return a JSON dictionary mapping luggage review themes to a list of keywords. Themes: durability, wheels, space, design, weight, lock, value, delivery. Example: {\"durability\": [\"durable\", ...], ...}. Only output JSON.",
+    _THEME_KEYWORDS,
+)
 
 
 def format_currency(value: float) -> str:
